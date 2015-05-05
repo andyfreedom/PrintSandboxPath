@@ -1,8 +1,11 @@
-    func testProgramOperation(){
+/************************* 沙盒文件相关目录的输出 *************************************/
+func tsetSandboxOperation
+{
         //打印程序的Home目录:
         var homePath:String = NSHomeDirectory()
         NSLog("程序的Home路径是: %@.", homePath)
         
+        //打印程序安装包路径:
         var appPath:String = NSBundle.mainBundle().bundlePath
         NSLog("程序的安装包的路径为: %@.", appPath)
         
@@ -12,7 +15,6 @@
         NSLog("程序的Document路径是: %@.", documentPath)
         
         //打印程序 的Library目录
-        
         paths = NSSearchPathForDirectoriesInDomains(.LibraryDirectory, .UserDomainMask, true) as! Array<String>
         var libraryDirectory:String = paths[0];
         NSLog("程序的Library路径是: %@.",libraryDirectory )
@@ -25,5 +27,39 @@
         paths = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true) as! Array<String>
         var cachesDirectory:String = paths[0];
         NSLog("程序的caches目录是: %@.",cachesDirectory )
+}
+    /**********************   沙盒文件的读写       ****************************************/
     
+    func testSandboxFileWriteOperation()
+    {
+        var paths  = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true) as! Array<String>
+        var documentPath:String? = paths[0]
+        if let docPath = documentPath
+        {
+            var filePath = documentPath! + "test.txt"
+            var contents:NSArray = ["Hello Jobs!","Hello We", "Hello Swift","Hello OldCoder!"]
+            var bRet = contents.writeToFile(filePath, atomically: true)
+                if bRet == true
+                {
+                    NSLog("文件写入成功！ ")
+                }
+                else
+                {
+                    NSLog("文件写入不成功!  ")
+                }   
+            }
+        else
+        {
+            NSLog("当前Document目录不存在!")
+        }
+    }
+    
+    func testSandboxFileReadOperation()
+    {
+        var paths  = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true) as! Array<String>
+        var documentPath:String? = paths[0]
+        var readPath = documentPath! + "test.txt"
+        var fileContent = NSArray(contentsOfFile: readPath)
+        NSLog("文件的内容是“ %@ .", fileContent!)
+       
     }
